@@ -3,10 +3,10 @@ name: Upload website to S3
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
+
 #test adding custom policy to role
 #changed policy to reflect just user/repo
+#updated policy to include sts
 env:
   
   AWS_REGION : "us-east-1" #Change to reflect your Region
