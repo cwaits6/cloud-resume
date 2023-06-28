@@ -25,10 +25,13 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v1.7.0
         with:
-          role-to-assume: arn:aws:iam::662458713737:role/GitHubAction-S3 #change to reflect your IAM role’s ARN
+          role-to-assume: arn:aws:iam::662458713737:role/GitHubAction-AssumeRoleWithAction #change to reflect your IAM role’s ARN
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
       # Hello from AWS: WhoAmI
       - name: Sts GetCallerIdentity
         run: |
           aws sts get-caller-identity
+      - name: Upload to S3
+        run: |
+          aws s3 sync $GITHUB_WORKSPACE s3://codywaits-crc --region us-east-1
