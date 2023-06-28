@@ -19,21 +19,21 @@ permissions:
 
 
 jobs:
-  deploy:
-    name: Upload to Amazon S3
+  AssumeRoleAndCallIdentity:
     runs-on: ubuntu-latest
-    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
-    permissions:
-      id-token: write
-      contents: read
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Configure AWS credentials from Test account
-      uses: aws-actions/configure-aws-credentials@v2
-      with:
-        role-to-assume: arn:aws:iam::662458713737:role/GitHubAction-AssumeRoleWithAction
-        aws-region: ${{ env.AWS_REGION }}
-    - name: Copy files to the test website with the AWS CLI
-      run: |
-        aws s3 sync . s3://codywaits-crc
+      - name: Git clone the repository
+        uses: actions/checkout@v3
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: arn:aws:iam::662458713737:role/GitHubAction-AssumeRoleWithAction #change to reflect your IAM role’s ARN
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+      # Hello from AWS: WhoAmI
+      - name: Sts GetCallerIdentity
+        run: |
+          aws sts get-caller-identity
+      - name: Upload to S3
+        run: |
+          aws s3 sync $GITHUB_WORKSPACE s3://codywaits-crc --region ${{ env.AWS_REGION }}
