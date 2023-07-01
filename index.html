@@ -10,6 +10,57 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script>function submitToAPI(event) {
+			e.preventDefault();
+			var URL = "https://i28mac1hha.execute-api.us-east-1.amazonaws.com/launch-email";
+	 
+				 var Namere = /[A-Za-z]{1}[A-Za-z]/;
+				 if (!Namere.test($("#name").val())) {
+							  alert ("Name can not less than 2 characters");
+					 return;
+				 }
+				 
+				 if ($("#email").val()=="") {
+					 alert ("Please enter your email address");
+					 return;
+				 }
+	 
+				 var reeamil = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,6})?$/;
+				 if (!reeamil.test($("#email").val())) {
+					 alert ("Please enter a valid email address");
+					 return;
+				 }
+	 
+			var name = $("#name").val();
+			var email = $("#email").val();
+			var message = $("#message").val();
+			var data = {
+			   name : name,
+			   email : email,
+			   message : message
+			 };
+	 
+			$.ajax({
+			  type: "POST",
+			  url : "https://i28mac1hha.execute-api.us-east-1.amazonaws.com/launch-email",
+			  dataType: "json",
+			  crossDomain: "true",
+			  contentType: "application/json; charset=utf-8",
+			  data: JSON.stringify(data),
+	 
+			  
+			  success: function () {
+				// clear form and show a success message
+				alert("Thanks for reaching out!");
+				document.getElementById("contact-form").reset();
+			location.reload();
+			  },
+			  error: function () {
+				// show an error message
+				alert("Something went wrong.");
+			  }});
+		  }</script>
 	</head>
 	<body class="is-preload">
 
@@ -507,7 +558,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 					<header class="major">
 						<h2>Get in touch</h2>
 					</header>
-					<form method="post" action="send_email.php">
+					<form onsubmit="submitToAPI(event)">
 						<div class="row gtr-uniform">
 							<div class="col-6 col-12-xsmall"><input type="text" name="name" id="name" placeholder="Name" /></div>
 							<div class="col-6 col-12-xsmall"><input type="email" name="email" id="email" placeholder="Email" /></div>
