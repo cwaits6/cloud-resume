@@ -7,61 +7,51 @@
 <html>
 	<head>
 		<title>Cody Waits</title>
+		<link rel="shortcut icon" type="image/png" href="images/blueCloud.png">
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script>function submitToAPI(event) {
-			e.preventDefault();
-			var URL = "https://i28mac1hha.execute-api.us-east-1.amazonaws.com/launch-email";
-	 
-				 var Namere = /[A-Za-z]{1}[A-Za-z]/;
-				 if (!Namere.test($("#name").val())) {
-							  alert ("Name can not less than 2 characters");
-					 return;
-				 }
-				 
-				 if ($("#email").val()=="") {
-					 alert ("Please enter your email address");
-					 return;
-				 }
-	 
-				 var reeamil = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,6})?$/;
-				 if (!reeamil.test($("#email").val())) {
-					 alert ("Please enter a valid email address");
-					 return;
-				 }
-	 
-			var name = $("#name").val();
-			var email = $("#email").val();
-			var message = $("#message").val();
-			var data = {
-			   name : name,
-			   email : email,
-			   message : message
-			 };
-	 
-			$.ajax({
-			  type: "POST",
-			  url : "https://i28mac1hha.execute-api.us-east-1.amazonaws.com/launch-email",
-			  dataType: "json",
-			  crossDomain: "true",
-			  contentType: "application/json; charset=utf-8",
-			  data: JSON.stringify(data),
-	 
-			  
-			  success: function () {
-				// clear form and show a success message
-				alert("Thanks for reaching out!");
-				document.getElementById("contact-form").reset();
-			location.reload();
-			  },
-			  error: function () {
-				// show an error message
-				alert("Something went wrong.");
-			  }});
-		  }</script>
+		<script>
+			function sendEmail() {
+			  // Get input values from the form
+			  var name = document.getElementById("name").value;
+			  var email = document.getElementById("email").value;
+			  var message = document.getElementById("message").value;
+		  
+			  // Prepare the request body
+			  var requestBody = {
+				name: name,
+				email: email,
+				message: message
+			  };
+		  
+			  // Make an HTTP POST request to the Lambda function
+			  fetch('https://affxsep1jg.execute-api.us-east-1.amazonaws.com/SES-send-email', {
+				method: 'POST',
+				body: JSON.stringify(requestBody)
+			  })
+			  .then(function(response) {
+				if (response.ok) {
+				  // Email sent successfully
+				  alert("Email sent successfully!");
+				  document.getElementById("name").value = "";
+				  document.getElementById("email").value = "";
+				  document.getElementById("message").value = "";
+				} else {
+				  // Error sending email
+				  alert("Failed to send email. Please try again later.");
+				}
+			  })
+			  .catch(function(error) {
+				// Error handling
+				console.error('Error:', error);
+				alert("An error occurred. Please try again later.");
+			  });
+			}
+		  </script>
 	</head>
+
 	<body class="is-preload">
 
 		<!-- Header -->
@@ -85,7 +75,7 @@
 		<!-- Bio -->
 			<section id="bio" class="main special">
 				<div class="container">
-					<span class="image fit primary"><img src="images/Blue Modern Technology Linktree Background.png" alt="" /></span>
+					<span class="image fit primary"><img src="images/tech.png" alt="" /></span>
 					<div class="content">
 						<header class="major">
 							<h2>Who I am</h2>
@@ -99,7 +89,7 @@
 		<!-- Certs -->
 			<section id="Certs" class="main special">
 				<div class="container">
-					<span class="image fit primary"><img src="images/pic02.jpg" alt="" /></span>
+					<span class="image fit primary"><img src="images/Blue Modern Technology Linktree Background.png" alt="" /></span>
 					<div class="content">
 						<header class="major">
 							<h2>Certifications</h2>
@@ -127,7 +117,7 @@
 		<!-- Skills -->
 			<section id="Skills" class="main special">
 				<div class="container">
-					<span class="image fit primary"><img src="images/pic03.jpg" alt="" /></span>
+					<span class="image fit primary"><img src="images/skills.png" alt="" /></span>
 					<div class="content">
 						<header class="major">
 							<h2>Skills</h2>
@@ -145,7 +135,7 @@
 		<!-- Employment -->
 		<section id="Employment" class="main special">
 			<div class="container">
-				<span class="image fit primary"><img src="images/pic03.jpg" alt="" /></span>
+				<span class="image fit primary"><img src="images/usArmyAirborne.png" alt="" /></span>
 				<div class="content">
 					<header>
 						<h2>Employment History</h2>
@@ -206,7 +196,7 @@
 		<!-- Education -->
 		<section id="Education" class="main special">
 			<div class="container">
-				<span class="image fit primary"><img src="images/pic03.jpg" alt="" /></span>
+				<span class="image fit primary"><img src="images/school.png" alt="" /></span>
 				<div class="content">
 					<header>
 						<h2>Education</h2>
@@ -228,6 +218,26 @@
 					</header>
 					<p>Mobile Application Development, Object Oriented Programming, Discrete Mathematics, Software Development</p>
 				</div>
+				<a href="#Entrepreneurship" class="goto-next scrolly">Next</a>
+			</div>
+		</section>
+
+		<!-- Skills -->
+		<section id="Entrepreneurship" class="main special">
+			<div class="container">
+				<span class="image fit primary"><img src="images/CombatCaddie.png" alt="" /></span>
+				<div class="content">
+					<header class="major">
+						<h2>Entrepreneurship</h2>
+					</header>
+					<img src="images/Combat Caddie Main.png" width = "150">
+					<h4><a href="https://www.combatcaddie.com">Combat Caddie LLC</a></h4>
+					<p>The military themed golf brand that anyone can wear. 5% of all profits are donated back to veterans. Whether you are new to the game of golf or a seasoned "veteran", you'll love the products we have to offer to show your love for the game!</p>
+				</div>
+				<ul class="icons">
+					<li><a href="https://instagram.com/combatcaddiellc?igshid=OGQ5ZDc2ODk2ZA==" class="icon brands fa-instagram" style="color: #467192;"><span  class="label">Instagram</span></a></li>
+					<li><a href="https://www.facebook.com/profile.php?id=100085611770994" class="icon brands fa-facebook-f" style="color: #467192;"><span class="label">Facebook</span></a></li>
+				</ul>
 				<a href="#footer" class="goto-next scrolly">Next</a>
 			</div>
 		</section>
@@ -308,7 +318,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
 										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
 										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+										<li><a href="#" class="icon brands fa-github" style="color: #467192;"><span class="label">Github</span></a></li>
 									</ul>
 								</div>
 							</div>
@@ -558,7 +568,7 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 					<header class="major">
 						<h2>Get in touch</h2>
 					</header>
-					<form onsubmit="submitToAPI(event)">
+					<form onsubmit="sendEmail()">
 						<div class="row gtr-uniform">
 							<div class="col-6 col-12-xsmall"><input type="text" name="name" id="name" placeholder="Name" /></div>
 							<div class="col-6 col-12-xsmall"><input type="email" name="email" id="email" placeholder="Email" /></div>
@@ -573,7 +583,8 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 				</div>
 				<footer>
 					<ul class="icons">
-						<!--<li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>-->
+						<li><a href="https://github.com/cwaits6/cloud-resume" class="icon brands fa-github" style="color: #D7D4DB;"><span class="label">Github</span></a></li>
+						<li><a href="https://www.linkedin.com/in/codywaits/" class="icon brands fa-linkedin" style="color: #D7D4DB;"><span class="label">LinkedIn</span></a></li>
 					</ul>
 					<!--<ul class="copyright">
 						<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li><li>Demo Images: <a href="http://unsplash.com">Unsplash</a></li>
