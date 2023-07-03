@@ -1,4 +1,6 @@
-function sendEmail() {
+function sendEmail(event) {
+    event.preventDefault(); // Prevent the default form submission
+
     // Get input values from the form
     var name = document.getElementById("name").value;
     var email = document.getElementById("email").value;
